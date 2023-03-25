@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    #f {
+      padding: 10px;
+      margin-top: 25px;
+      width: 40%;
+      overflow: hidden;
+      margin-left: 25px;
+      float: left;
+    }
+
+    #f h2 {
+      text-align: center;
+    }
+  </style>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+  <script src="data.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img class="navbar-brand" src="logo.jpg" />
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="issue.html">Issue good</a></li>
+        <li><a href="add_user.html">Register</a></li>
+        <li><a href="reports.html">Reports</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="f">
+    <form id="setI">
+      <div class="container">
+        <label for="fam">Enter Items and their values :</label><br />
+        <div id="fam-container">
+          <div class="form-group">
+            <label>Rice</label>
+            <input type="number" class="form-control" name="r" id="r" required />
+          </div>
+
+          <div class="form-group">
+            <label>Wheat</label>
+            <input type="number" class="form-control" name="w" id="w" required />
+          </div>
+
+          <div class="form-group">
+            <label>Sugar</label>
+            <input type="number" class="form-control" name="s" id="s" required />
+          </div>
+
+          <div class="form-group">
+            <label>Palm Oil</label>
+            <input type="number" class="form-control" name="p" id="p" required />
+          </div>
+
+          <div class="form-group">
+            <label>Other</label>
+            <input type="number" class="form-control" name="o" id="o" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </div>
+      <br /><br />
+    </form>
+  </div>
+  <div id="f">
+    <form id="delI">
+      <div class="container">
+        <button type="submit" class="btn btn-primary btn-lg">
+          Delete Items
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div id="f">
+    <form id="showI">
+      <button type="submit" class="btn btn-primary btn-lg">
+        Click see All Items
+      </button>
+    </form>
+  </div>
+
+  <div id="f">
+    <form id="nextShop">
+      <button type="submit" class="btn btn-primary btn-lg">
+        Next Shop To Verify
+      </button>
+    </form>
+  </div>
+
+  <div id="f">
+    <form id="verifyShop">
+      <h2>Verify Shop details</h2>
+      <div class="form-group">
+        <label>Shoop ID</label>
+        <input type="text" class="form-control" name="id" id="id" placeholder="Enter ID" />
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="a" id="a" value="1" />
+        <label class="form-check-label">Accept</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="a" id="a" value="0" />
+        <label class="form-check-label">Reject</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <div id="f">
+    <form id="delShop">
+      <h2>Delete Shop</h2>
+      <div class="form-group">
+        <label>Shop ID</label>
+        <input type="text" class="form-control" name="id" id="id" placeholder="Enter ID" />
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="a" id="a" value="1" />
+        <label class="form-check-label">Delete req was by owner</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="a" id="a" value="0" />
+        <label class="form-check-label">other issue</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</body>
+
+<!-- set items -->
+<script>
+  const setI = document.getElementById("setI");
+
+  setI.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+    // Your form submission code goes here
+    // For example, you can get the form data like this:
+    const formData = new FormData(setI);
+    const r = formData.get("r");
+    const w = formData.get("w");
+    const s = formData.get("s");
+    const p = formData.get("p");
+    const o = formData.get("o");
+
+    console.log(r);
+    console.log(contract)
+
+    const result = await contract.setItems(r, w, s, p, o);
+
+    // Wait for the transaction to be mined
+    await result.wait();
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
+  });
+
+
+</script>
+
+<!-- delete items -->
+<script>
+  const delI = document.getElementById("delI");
+
+  delI.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+
+    const result = await contract.deleteItems();
+
+    // Wait for the transaction to be mined
+    await result.wait();
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
+  });
+
+
+</script>
+
+<!-- Show items -->
+<script>
+  const showI = document.getElementById("showI");
+
+  showI.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+   
+
+    const result = await contract.govSet;
+    console.log(result)
+    
+
+    console.log(result.rice.toString()); // Convert the BigNumber to a string
+    console.log(result.wheat.toString());
+    console.log(result.sugar.toString());
+    console.log(result.palm_oil.toString());
+    console.log(result.other.toString());
+
+    // Wait for the transaction to be mined
+  });
+
+
+</script>
+
+<!-- next shop to verify -->
+<script>
+  const nextShop = document.getElementById("nextShop");
+
+  nextShop.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+
+    const result = await contract.next();
+
+    console.log(result.toString());
+  });
+
+
+</script>
+
+<!-- verifyShop -->
+<script>
+  const verifyShop = document.getElementById("verifyShop");
+
+  verifyShop.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+    const formData = new FormData(verifyShop);
+    const id = formData.get("id");
+    const a = formData.get("a");
+    const result = await contract.verify(id, a);
+    await result.wait();
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
+
+  });
+
+</script>
+
+<!-- Delete Shop -->
+<script>
+  const delShop = document.getElementById("delShop");
+
+  delShop.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+    const formData = new FormData(delShop);
+    const id = formData.get("id");
+    const a = formData.get("a");
+    const result = await contract.removeEmp(id, a);
+    await result.wait();
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
+
+  });
+
+</script>
+
+</html>

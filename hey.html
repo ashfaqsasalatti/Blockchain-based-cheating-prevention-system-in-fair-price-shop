@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+      <form method="post" action="/fr">
+        <label for="fruits">Enter some fruits:</label><br>
+        <div id="fruits-container">
+          <input type="text" name="fruits[]" value=""><br>
+        </div>
+        <button type="button" onclick="addFruit()">Add another fruit</button>
+        <button type="button" onclick="removeFruit()">Remove a fruit</button>
+        <input type="submit" value="Submit">
+      </form>
+      
+      <script>
+      function addFruit() {
+        var container = document.getElementById("fruits-container");
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "fruits[]";
+        input.value = "";
+        container.appendChild(input);
+      }
+      
+      function removeFruit() {
+        var container = document.getElementById("fruits-container");
+        var inputs = container.getElementsByTagName("input");
+        if (inputs.length > 1) {
+          container.removeChild(inputs[inputs.length - 1]);
+        }
+      }
+      </script>
+      
+      
+</body>
+</html>

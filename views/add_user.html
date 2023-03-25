@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Bootstrap Example</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+	<script src="data.js"></script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<img class="navbar-brand" src="logo.jpg" />
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+				<li><a href="/distribute">Issue good</a></li>
+				<li><a href="/add">Register</a></li>
+				<li><a href="/repo">Reports</a></li>
+
+			</ul>
+		</div>
+	</nav>
+
+	<script>
+		function addFam() {
+			var container = document.getElementById("fam-container");
+			var input = document.createElement("input");
+			input.type = "text";
+			input.name = "fam[]";
+			input.value = "";
+			container.appendChild(input);
+		}
+
+		function Geeks() {
+			var val = document.getElementsByName('user');
+			var inputs = 0;
+			for (var i = 0; i < val.length; i++) {
+				var a = val[i];
+				inputs = inputs + "array[" + i + "].value= "
+					+ a.value + " ";
+			} alert(inputs);
+		}
+		function removeFam() {
+			var container = document.getElementById("fam-container");
+			var inputs = container.getElementsByTagName("input");
+			if (inputs.length > 1) {
+				container.removeChild(inputs[inputs.length - 1]);
+			}
+		}
+	</script>
+
+
+	<body>
+		<div id="f">
+			<form id="reg">
+				<h2><b>Register</b></h2>
+				<hr
+					style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+
+				<div class="container">
+
+					<label><b>Enter Name :</b></label><br>
+					<input type="text" placeholder="Name" name="name" required><br>
+					<label><b>Enter ID :</b></label><br>
+					<input type="text" placeholder="ID" name="id" required><br><br>
+					<label><b>Enter Adhar no. :</b></label>
+					<input type="number" placeholder="Aadhar no." name="adhar" required><br><br>
+					<label><b>Enter Mobile no. :</b></label>
+					<input type="number" placeholder="Mobile no." name="mobile" required><br><br>
+					<label for="fam">Enter family members with ration card :</label><br>
+					<div id="fam-container">
+						<input type="text" name="fam[]" value=""><br>
+					</div><br>
+					<button type="button" onclick="addFam()">Add another member</button>
+					<button type="button" onclick="removeFam()">Remove a member</button><br><br>
+					<button type="submit" class="btn btn-primary">submit</button>
+				</div>
+			</form>
+		</div>
+
+		<div id="f">
+			<form id="addMem">
+				<h2><b>Add Member to existing Card</b></h2>
+				<hr
+					style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+				<div class="form-group">
+					<label>Ration Card Number</label>
+					<input type="text" class="form-control" name="id" id="id" placeholder="Enter ID">
+				</div>
+				<div class="form-group">
+					<label>Member to Add</label>
+					<input type="text" class="form-control" name="mem" id="name" placeholder="Member Name to Add">
+				</div>
+
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+		<div id="f">
+			<form id="delMem">
+				<h2><b>Delete Member from existing Card</b></h2>
+				<hr
+					style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+				<div class="form-group">
+					<label>Ration Card Number</label>
+					<input type="text" class="form-control" name="id" id="id" placeholder="Enter ID">
+				</div>
+				<div class="form-group">
+					<label>Member to delete</label>
+					<input type="text" class="form-control" name="mem" id="name" placeholder="Member Name to delete">
+				</div>
+
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+
+		<div id="f">
+			<form id="delReq">
+				<h2><b>Card Delete Request</b></h2>
+				<hr
+					style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+				<div class="form-group">
+					<label>Ration Card Number</label>
+					<input type="text" class="form-control" name="id" id="id" placeholder="Enter ID">
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="a" id="a" value="0">
+					<label class="form-check-label" for="inlineRadio1">Distributer</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="a" id="a" value="1">
+					<label class="form-check-label" for="inlineRadio2">Customer</label>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</body>
+	<!-- registration -->
+	<script>
+		const reg = document.getElementById("reg");
+
+		reg.addEventListener("submit", async function (event) {
+			event.preventDefault(); // prevent form from submitting
+			contract = myObj.contract;
+
+			// Your form submission code goes here
+			// For example, you can get the form data like this:
+			const formData = new FormData(reg);
+			const name = formData.get("name");
+			const id = formData.get("id");
+			const adhar = formData.get("adhar");
+			const mobile = formData.get("mobile");
+			const fam = formData.getAll("fam[]");
+
+			console.log(name);
+			console.log("ID: " + id);
+			console.log("Adhar No.: " + adhar);
+			console.log("Mobile No.: " + mobile);
+			console.log(fam);
+
+
+			const result = await contract.register(id, name, mobile, adhar, fam);
+			await result.wait();
+			if (result.hash) {
+				console.log("Transaction successful!");
+			} else {
+				console.log("Transaction failed!");
+			}
+
+		});
+
+
+	</script>
+
+	<!-- Add family member -->
+	<script>
+		const addMem = document.getElementById("addMem");
+
+		addMem.addEventListener("submit", async function (event) {
+			event.preventDefault(); // prevent form from submitting
+			contract = myObj.contract;
+
+			// Your form submission code goes here
+			// For example, you can get the form data like this:
+			const formData = new FormData(addMem);
+			const name = formData.get("name");
+			const id = formData.get("id");
+
+
+			console.log(name);
+			console.log("ID: " + id);
+
+			const result = await contract.addFamilyMem(id, name);
+			await result.wait();
+			if (result.hash) {
+				console.log("Transaction successful!");
+			} else {
+				console.log("Transaction failed!");
+			}
+
+		});
+	</script>
+
+	<!-- Delete family member  -->
+	<script>
+		const delMem = document.getElementById("delMem");
+
+		delMem.addEventListener("submit", async function (event) {
+			event.preventDefault(); // prevent form from submitting
+			contract = myObj.contract;
+
+			// Your form submission code goes here
+			// For example, you can get the form data like this:
+			const formData = new FormData(delMem);
+			const name = formData.get("name");
+			const id = formData.get("id");
+
+			console.log(name);
+			console.log("ID: " + id);
+
+
+			const result = await contract.deleteFamily(id, name);
+			await result.wait();
+			if (result.hash) {
+				console.log("Transaction successful!");
+			} else {
+				console.log("Transaction failed!");
+			}
+
+		});
+
+
+	</script>
+
+	<!-- Delete Request -->
+	<script>
+		const delReq = document.getElementById("delReq");
+
+		delReq.addEventListener("submit", async function (event) {
+			event.preventDefault(); // prevent form from submitting
+			contract = myObj.contract;
+
+			// Your form submission code goes here
+			// For example, you can get the form data like this:
+			const formData = new FormData(delReq);
+			const name = formData.get("a");
+			const id = formData.get("id");
+
+			console.log(a);
+			console.log("ID: " + id);
+
+
+			const result = await contract.delReq(id, a);
+			await result.wait();
+			if (result.hash) {
+				console.log("Transaction successful!");
+			} else {
+				console.log("Transaction failed!");
+			}
+
+		});
+
+
+	</script>
+
+</html>
