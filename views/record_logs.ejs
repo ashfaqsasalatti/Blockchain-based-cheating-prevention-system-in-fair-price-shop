@@ -34,10 +34,10 @@
           <img class="navbar-brand" src="logo.jpg" />
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="issue.html">Issue good</a></li>
-          <li><a href="add_user.html">Register</a></li>
-          <li><a href="reports.html">Reports</a></li>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/distribute">Issue good</a></li>
+          <li><a href="/add">Register</a></li>
+          <li><a href="/repo">Reports</a></li>
         </ul>
       </div>
     </nav>
@@ -48,7 +48,6 @@
     address = await signer.getAddress();
     const result = await contract.distribute(address);
 
-    
     window.location.href = "dist_login.html";
 
 </script>

@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
     res.render('menu');
 });
 
+app.get('/add', (req, res) => {
+    res.render('add_user');
+});
+
 app.get("/sendOtp/:phone", (req, res) => {
     ph = req.query.phone;
     client.verify.services(verifyServiceSid)
@@ -37,7 +41,7 @@ app.get("/sendOtp/:phone", (req, res) => {
   
     twilio.verify.v2.services('VA1f62ba69c47c25a2176ffffd9606de97')
     .verificationChecks
-    .create({to: "+917975101583", code: otp})
+    .create({to: ph, code: otp})
     .then(verification_check => console.log(verification_check.status));
     
     res.send(__dirname + "/views/recod_logs.html");
@@ -54,7 +58,8 @@ app.get("/sendOtp/:phone", (req, res) => {
   
   
   app.get("/repo", (req, res) => {
-    res.sendFile(__dirname + "/views/reports.html");
+    
+    res.render('reports')
   });
   
   

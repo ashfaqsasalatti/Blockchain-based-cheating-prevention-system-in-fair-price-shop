@@ -34,10 +34,10 @@
         <img class="navbar-brand" src="logo.jpg" />
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="issue.html">Issue good</a></li>
-        <li><a href="add_user.html">Register</a></li>
-        <li><a href="reports.html">Reports</a></li>
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/distribute">Issue good</a></li>
+        <li><a href="/add">Register</a></li>
+        <li><a href="/repo">Reports</a></li>
       </ul>
     </div>
   </nav>
@@ -141,6 +141,29 @@
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
+
+  <div id="f">
+    <form id="setEmp">
+      <h2><b>Add Shop</b></h2>
+      <hr
+        style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+
+      <div class="container">
+
+        <label><b>Enter Distributer Name:</b></label><br>
+        <input type="text" placeholder="Name" name="name" required><br>
+        <label><b>Enter Shop Name :</b></label><br>
+        <input type="text" placeholder="Shop Name" name="sname" required><br>
+        <label><b>Enter ID :</b></label><br>
+        <input type="text" placeholder="ID" name="id" required><br><br>
+        <label><b>Enter Adhar no. :</b></label>
+        <input type="number" placeholder="Aadhar no." name="adhar" required><br><br>
+        <label><b>Enter Mobile no. :</b></label>
+        <input type="number" placeholder="Mobile no." name="mobile" required><br><br>
+        <button type="submit" class="btn btn-primary">submit</button>
+      </div>  
+    </form>
+  </div>
 </body>
 
 <!-- set items -->
@@ -208,7 +231,7 @@
     event.preventDefault(); // prevent form from submitting
    
 
-    const result = await contract.govSet;
+    const result = await contract.showitems();
     console.log(result)
     
 
@@ -287,4 +310,40 @@
 
 </script>
 
+<!-- Set emp -->
+<script>
+  const reg = document.getElementById("setEmp");
+
+  setEmp.addEventListener("submit", async function (event) {
+    event.preventDefault(); // prevent form from submitting
+    
+
+    // Your form submission code goes here
+    // For example, you can get the form data like this:
+    const formData = new FormData(setEmp);
+    const name = formData.get("name");
+    const id = formData.get("id");
+    const adhar = formData.get("adhar");
+    const mobile = formData.get("mobile");
+    const sname = formData.get("sname");
+
+    console.log(name);
+    console.log("ID: " + id);
+    console.log("Adhar No.: " + adhar);
+    console.log("Mobile No.: " + mobile);
+    console.log(sname);
+
+
+    const result = await contract.setEmp(id, name,sname, mobile, adhar);
+    await result.wait();
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
+
+  });
+
+
+</script>
 </html>

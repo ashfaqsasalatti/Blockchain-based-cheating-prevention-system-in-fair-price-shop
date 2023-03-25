@@ -102,8 +102,30 @@
 
   <!-- Distribution -->
   <script>
+
     var x, ph;
-    const give = document.getElementById("give");
+    
+    // Create the HTML content for the form
+    const formElement = document.createElement("form");
+    formElement.id = "verifyOtp";
+
+    formElement.innerHTML = `
+    <form  action="/verify" method="post">
+      <div class="container" style="padding-top: 100px;">
+        <label><b>Enter OTP</b></label>
+        <input type="text" placeholder="OTP" name="otp" required >
+        <input type="submit">
+        </div>
+        </form>
+        `;
+        
+        
+        const give = document.getElementById("give");
+        const parentElement = document.getElementById("parent");
+        
+        const verify = document.getElementById("verifyOtp");
+
+
 
 
     give.addEventListener("submit", async function (event) {
@@ -117,8 +139,25 @@
       const result = await contract.cal(id);
 
       console.log(result)
+      const res = await contract.getPhone(x);
+      console.log(res)
+      ph = res
 
-      parentElement.appendChild(buttonElement);
+      data = {
+        phone: ph,
+      };
+      const queryString = new URLSearchParams(data).toString();
+
+      // Construct the URL with the query string
+      const url = "/sendOtp?" + queryString;
+        console.log(url);
+        console.log(queryString);
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+
+      parentElement.appendChild(formElement);
 
     });
 
