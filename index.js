@@ -26,25 +26,44 @@ app.get('/add', (req, res) => {
     res.render('add_user');
 });
 
-app.get("/sendOtp/:phone", (req, res) => {
-    ph = req.query.phone;
-    client.verify.services(verifyServiceSid)
-    .verifications
-    .create({to: ph, channel: 'sms'})
-    .then(verification => console.log(verification.sid));
+app.get("/sendOtp", (req, res) => {
+    ph ='+' + req.query.phone.toString();;
+    twilio.verify.v2
+    .services("VA89b1ef3ffabd3726f6919f5309a5a239")
+    .verifications.create({ to: ph, channel: "sms" })
+    .then((verification) => console.log(verification.sid));
     res.status(200).send();
   });
   
   
   app.post("/verify", (req, res) => {
     const otp = req.body.otp;
+    const contract = req.body.cont;
+    const signer = req.body.sign;
   
-    twilio.verify.v2.services(verifyServiceSid)
+    twilio.verify.v2.services("VA89b1ef3ffabd3726f6919f5309a5a239")
     .verificationChecks
     .create({to: ph, code: otp})
-    .then(verification_check => console.log(verification_check.status));
+    .then( async(verification_check) =>{
+      console.log(verification_check.status)
+      if(verification_check.status === "approved"){
+        res.status(200)
+        address = await signer.getAddress();
+        result = await contract.distribute(address);
+        await result.wait();
+        if (result.hash) {
+          console.log("Transaction successful!");
+        } else {
+          console.log("Transaction failed!");
+        }
+        res.render('dist_login')
+      }
+      else{
+        res.status('500')
+      }
+  });
     
-    res.render('recod_logs')
+    
   });
   
   

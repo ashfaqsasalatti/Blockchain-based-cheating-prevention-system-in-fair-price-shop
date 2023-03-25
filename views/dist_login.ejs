@@ -10,7 +10,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
-	<script src="data.js"></script>
+  <script src="data.js"></script>
   <style>
     #f {
 
@@ -104,33 +104,33 @@
   <script>
 
     var x, ph;
-    
+
     // Create the HTML content for the form
     const formElement = document.createElement("form");
     formElement.id = "verifyOtp";
 
     formElement.innerHTML = `
-    <form  action="/verify" method="post">
+    <form  id="verifyOtp">
       <div class="container" style="padding-top: 100px;">
         <label><b>Enter OTP</b></label>
         <input type="text" placeholder="OTP" name="otp" required >
         <input type="submit">
         </div>
-        </form>
+    </form>
         `;
-        
-        
-        const give = document.getElementById("give");
-        const parentElement = document.getElementById("parent");
-        
-        const verify = document.getElementById("verifyOtp");
+
+
+    const give = document.getElementById("give");
+    const parentElement = document.getElementById("parent");
+
+
 
 
 
 
     give.addEventListener("submit", async function (event) {
       event.preventDefault(); // prevent form from submitting
-      
+
 
       const formData = new FormData(give);
       const id = formData.get("id");
@@ -139,7 +139,7 @@
       const result = await contract.cal(id);
 
       console.log(result)
-      const res = await contract.getPhone(x);
+      const res = await contract.getPhone(id);
       console.log(res)
       ph = res
 
@@ -150,14 +150,43 @@
 
       // Construct the URL with the query string
       const url = "/sendOtp?" + queryString;
-        console.log(url);
-        console.log(queryString);
+      console.log(url);
+      console.log(queryString);
       fetch(url)
-        .then((response) => response.json())
         .then((data) => console.log(data))
         .catch((error) => console.error(error));
 
       parentElement.appendChild(formElement);
+
+      const verify = document.getElementById("verifyOtp");
+      verify.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(verify);
+        const otp = formData.get("otp");
+
+        const seen = new WeakSet();
+        const replacer = (key, value) => {
+          if (typeof value === "object" && value !== null) {
+            if (seen.has(value)) {
+              return "[Circular]";
+            }
+            seen.add(value);
+          }
+          return value;
+        };
+
+        fetch("/verify", {
+          method: "POST",
+          body: JSON.stringify({ otp, contract, signer }, replacer),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+          .then((json) => console.log(json));
+
+
+
+      })
 
     });
 
@@ -169,7 +198,7 @@
 
     verifyCust.addEventListener("submit", async function (event) {
       event.preventDefault(); // prevent form from submitting
-      
+
 
       const formData = new FormData(verifyCust);
       const id = formData.get("id");
@@ -192,10 +221,10 @@
 
     nextCust.addEventListener("submit", async function (event) {
       event.preventDefault(); // prevent form from submitting
-      
 
 
-      const result = await contract.next();
+
+      const result = await contract.nextCustomer();
 
       console.log(result.toString());
     });
@@ -209,7 +238,7 @@
 
     delCust.addEventListener("submit", async function (event) {
       event.preventDefault(); // prevent form from submitting
-      
+
 
       const formData = new FormData(delCust);
       const id = formData.get("id");

@@ -23,6 +23,11 @@ const abi = JSON.parse(`[
 				"internalType": "address",
 				"name": "x",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "a",
+				"type": "uint256"
 			}
 		],
 		"name": "delCust",
@@ -202,7 +207,7 @@ const abi = JSON.parse(`[
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_set",
+				"name": "x",
 				"type": "address"
 			},
 			{
@@ -309,6 +314,158 @@ const abi = JSON.parse(`[
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "bought",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "rice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "wheat",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sugar",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "palm_oil",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "other",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "x",
+				"type": "address"
+			}
+		],
+		"name": "cal",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "rice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "wheat",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "sugar",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "palm_oil",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "other",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Ration.Quant",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "emp",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "empDel",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "empReq",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "a",
 				"type": "address"
 			}
@@ -380,9 +537,9 @@ const abi = JSON.parse(`[
 						"type": "uint256"
 					}
 				],
-				"internalType": "struct Ration.Quant",
+				"internalType": "struct Ration.Quant[]",
 				"name": "",
-				"type": "tuple"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -495,6 +652,52 @@ const abi = JSON.parse(`[
 	},
 	{
 		"inputs": [],
+		"name": "gov",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "govSet",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "rice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "wheat",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sugar",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "palm_oil",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "other",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "next",
 		"outputs": [
 			{
@@ -528,11 +731,6 @@ const abi = JSON.parse(`[
 				"internalType": "struct Ration.distributer",
 				"name": "",
 				"type": "tuple"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -578,11 +776,330 @@ const abi = JSON.parse(`[
 				"internalType": "struct Ration.Person",
 				"name": "",
 				"type": "tuple"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextCustomerDel",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "int256",
+						"name": "phone",
+						"type": "int256"
+					},
+					{
+						"internalType": "int256",
+						"name": "adharNum",
+						"type": "int256"
+					},
+					{
+						"internalType": "string[]",
+						"name": "family",
+						"type": "string[]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lastPurchase",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "id",
+						"type": "address"
+					}
+				],
+				"internalType": "struct Ration.Person",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "peop",
+		"outputs": [
 			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "peopDel",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "people",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "phone",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "adharNum",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastPurchase",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "id",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "peopleReq",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "int256",
+				"name": "phone",
+				"type": "int256"
+			},
+			{
+				"internalType": "int256",
+				"name": "adharNum",
+				"type": "int256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastPurchase",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "id",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "reqPeople",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "sellerLog",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "cName",
+				"type": "address"
+			},
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "rice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "wheat",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "sugar",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "palm_oil",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "other",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Ration.Quant",
+				"name": "soldQuant",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "shop",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "phone",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "adharNum",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "id",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "shopName",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "shopReq",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "phone",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "adharNum",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "id",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "shopName",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -630,7 +1147,7 @@ const abi = JSON.parse(`[
 	}
 ]`)
 
-let contract;
+let contract,signer;
 
 
 async function getAccountBalance() {

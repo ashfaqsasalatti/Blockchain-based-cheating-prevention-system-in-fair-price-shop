@@ -43,12 +43,17 @@
     </nav>
 
 <script>
-    contract = myObj.contract;
-    signer = myObj.signer;
+
     address = await signer.getAddress();
     const result = await contract.distribute(address);
+    await result.wait();
+			if (result.hash) {
+				console.log("Transaction successful!");
+			} else {
+				console.log("Transaction failed!");
+			}
 
-    window.location.href = "dist_login.html";
+    window.location.href = "/dist_login";
 
 </script>
 
