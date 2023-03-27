@@ -1145,34 +1145,33 @@ const abi = JSON.parse(`[
 		"stateMutability": "view",
 		"type": "function"
 	}
-]`)
+]`);
 
-let contract,signer;
-
+let contract, signer;
 
 async function getAccountBalance() {
-    if (typeof window.ethereum === "undefined") {
-        alert("Please install Metamask to connect to the Ethereum network");
-        return;
-    }
+  if (typeof window.ethereum === "undefined") {
+    alert("Please install Metamask to connect to the Ethereum network");
+    return;
+  }
 
-    provider = new ethers.providers.Web3Provider(window.ethereum)
+  provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    await provider.send("eth_requestAccounts", []);
+  await provider.send("eth_requestAccounts", []);
 
-    signer = provider.getSigner();
+  signer = provider.getSigner();
 
-    address = await signer.getAddress();
-    console.log(address)
-    balance = await provider.getBalance(address)
+  address = await signer.getAddress();
+  console.log("User address is" + address);
 
-    console.log(`\nETH Balance of ${address} --> ${ethers.utils.formatEther(balance)} ETH\n`)
-
-    contract = new ethers.Contract("0xfF8C590c8658E2d41f808172cD3D00A10312484B", abi, signer)
-
+  contract = new ethers.Contract(
+    "0xfF8C590c8658E2d41f808172cD3D00A10312484B",
+    abi,
+    signer
+  );
 }
 
 window.onload = function exampleFunction() {
-    //console.log('The Script will load now.');
-    getAccountBalance();
-}
+  //console.log('The Script will load now.');
+  getAccountBalance();
+};

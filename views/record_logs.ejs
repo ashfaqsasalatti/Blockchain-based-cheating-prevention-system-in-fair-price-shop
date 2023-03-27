@@ -28,32 +28,31 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <img class="navbar-brand" src="logo.jpg" />
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/distribute">Issue good</a></li>
-          <li><a href="/add">Register</a></li>
-          <li><a href="/repo">Reports</a></li>
-        </ul>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img class="navbar-brand" src="logo.jpg" />
       </div>
-    </nav>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/distribute">Issue good</a></li>
+        <li><a href="/add">Register</a></li>
+        <li><a href="/repo">Reports</a></li>
+      </ul>
+    </div>
+  </nav>
 
-<script>
+  <script>
 
     address = await signer.getAddress();
-    const result = await contract.distribute(address);
+    result = await contract.distribute(address);
     await result.wait();
-			if (result.hash) {
-				console.log("Transaction successful!");
-			} else {
-				console.log("Transaction failed!");
-			}
+    if (result.hash) {
+      console.log("Transaction successful!");
+    } else {
+      console.log("Transaction failed!");
+    }
 
     window.location.href = "/dist_login";
 
-</script>
-
+  </script>
