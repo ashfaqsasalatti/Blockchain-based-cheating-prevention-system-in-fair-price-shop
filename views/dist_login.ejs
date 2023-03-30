@@ -151,7 +151,7 @@
 
         if (OTP == otp) {
 
-          contract.distribute(customerAddress).then(function (result) {
+          contract.distribute(x).then(function (result) {
             console.log(result);
             alert("Transaction successful!");
           }).catch(function (error) {
