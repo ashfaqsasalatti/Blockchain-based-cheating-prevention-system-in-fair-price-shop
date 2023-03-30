@@ -46,7 +46,7 @@ address[] public empDel; //for Delet request queuing
 
 
 
-mapping(address => mapping(uint => Quant)) public bought;
+mapping(address => mapping(uint => Quant[])) public bought;
 struct Quant {
     uint rice;
     uint wheat;
@@ -119,6 +119,8 @@ function setItems(uint r,uint w,uint s,uint p,uint o)public {
     govSet.palm_oil = p;
     govSet.other = o;
 }
+
+
 function showitems() public view returns(Quant memory){
     return govSet;
 }
@@ -209,7 +211,6 @@ function verifyCustomer(address x,uint a) public {
 
     require(exists(x),"Not authorized");
     if(a==1){
-    
     people[x] = peopleReq[x];
     peop.push(x);
     }
@@ -258,12 +259,14 @@ function delCust(address x,uint a) public{
 }
 
 
-function distribute(address y) onlyEmp public returns (Quant memory) {
-    uint256 year = ((block.timestamp - 946684800) / 31536000) + 2000;
-    uint month = ((block.timestamp / 60 / 60 / 24 / 30) % 12) - 8;
+function distribute(address y) onlyEmp public{
+
+    uint year = (block.timestamp / 31536000) + 1970;
+    uint month = ((block.timestamp % 31536000) / 2629744) + 1;
+
 
     // y represents Customer address
-    require(month >= people[y].lastPurchase + 1, "Can only purchase once a month");
+    require(month >= people[y].lastPurchase +1, "Can only purchase once a month");
     require(existsPeop(y),"Not Registered");
     address x= msg.sender; //seller address
     Quant memory outputQuant = cal(y);
@@ -274,11 +277,13 @@ function distribute(address y) onlyEmp public returns (Quant memory) {
     });
     sellerLog[x][year][month].push(sale);
 
-    bought[x][year] = outputQuant;
+    bought[y][year].push(outputQuant);
+
     people[x].lastPurchase = month;
 
-    return outputQuant;
 }
+
+
 function cal(address x) public view returns (Quant memory) {
     uint constantFactor = people[x].family.length + 1;
 
@@ -292,11 +297,13 @@ function cal(address x) public view returns (Quant memory) {
     return outputQuant;
 }
 
-function getMon() public view returns(uint, uint256){
-    uint256 year = ((block.timestamp - 946684800) / 31536000) + 2000;
-    uint month = ((block.timestamp / 60 / 60 / 24 / 30) % 12) - 8;
-    return (year,month);
+function getMon() public view returns (uint, uint) {
+    uint year = (block.timestamp / 31536000) + 1970;
+    uint month = ((block.timestamp % 31536000) / 2629744) + 1;
+    return (year, month);
 }
+
+
 
 function getPhone(address x) public view returns (int) {
     return people[x].phone;
@@ -322,7 +329,7 @@ function register(address x,string memory _name, int _phone, int _adhar, string[
     reqPeople.push(x);
 }
 
-//a=0 delete shop
+//a=0 delete shop request
 function delReq(address x,uint a) public{
    if(a==0){
        empDel.push(x);
@@ -333,10 +340,10 @@ function delReq(address x,uint a) public{
 }
 
 
-function getFam(address a) public view returns(Person memory){
-    //uint y = ((block.timestamp - 946684800) / 31536000) + 2000;
+function getFam(address a) public view returns(Person memory,Quant[] memory){
+    uint y = ((block.timestamp - 946684800) / 31536000) + 2000;
     
-    return (people[a]);
+    return (people[a],bought[a][y]);
 }
 
 
