@@ -104,6 +104,7 @@
   <script>
 
     var x, ph;
+    OTP = 974005;
 
     // Create the HTML content for the form
     const formElement = document.createElement("form");
@@ -137,12 +138,7 @@
       x = id
 
       const result = await contract.cal(id);
-
-      console.log(result)
-      const res = await contract.getPhone(id);
-      console.log(res)
-      ph = res
-      OTP = 118356;
+      alert("give\n" + "Rice:" + result.rice.toString() + "\nWheat:" + result.wheat.toString() + "\nSugar:" + result.sugar.toString() + "\nPalm_oil:" + result.palm_oil.toString() + "\nOther:" + result.other.toString())
 
 
       parentElement.appendChild(formElement);
@@ -154,23 +150,20 @@
         const otp = formData.get("otp");
 
         if (OTP == otp) {
-          address = await signer.getAddress();
-          result = await contract.distribute(address);
-          await result.wait();
-          if (result.hash) {
-            alert("Transaction successful!");
-          } else {
-            alert("Transaction failed!");
-          }
 
-          window.location.href = "/dist_login";
+          contract.distribute(customerAddress).then(function (result) {
+            console.log(result);
+            alert("Transaction successful!");
+          }).catch(function (error) {
+            console.log(error);
+          });
+
+
+          window.location.href = "/distribute";
         }
         else {
           alert("Wrong otp");
         }
-
-
-
       })
 
     });

@@ -87,40 +87,7 @@ const abi = JSON.parse(`[
 			}
 		],
 		"name": "distribute",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "rice",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "wheat",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "sugar",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "palm_oil",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "other",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Ration.Quant",
-				"name": "",
-				"type": "tuple"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -1147,7 +1114,7 @@ const abi = JSON.parse(`[
 	}
 ]`);
 
-let contract, signer;
+let contract, signer, address;
 
 async function getAccountBalance() {
   if (typeof window.ethereum === "undefined") {
@@ -1162,10 +1129,10 @@ async function getAccountBalance() {
   signer = provider.getSigner();
 
   address = await signer.getAddress();
-  console.log("User address is" + address);
+  console.log("User address is  :  " + address);
 
   contract = new ethers.Contract(
-    "0xfF8C590c8658E2d41f808172cD3D00A10312484B",
+    "0x846884A665D5aDf3DF9ECa932a3aD175Ed99Fc88",
     abi,
     signer
   );
