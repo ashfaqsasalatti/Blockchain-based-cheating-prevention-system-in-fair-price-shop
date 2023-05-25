@@ -15,6 +15,126 @@
     #f h2 {
       text-align: center;
     }
+
+    .profile-card-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid #ffffff40;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+      background-color: #fff;
+      margin: auto;
+      margin-top: 50px;
+    }
+
+    .close-btn {
+      position: absolute;
+      margin-top: 50px;
+      top: 15px;
+      right: 800px;
+      font-size: 24px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .main {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url(https://tinypic.host/images/2023/03/20/Shapes-Abstraction-Background-2466799.jpg);
+      background-position: center;
+      background-size: cover;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid #ffffff40;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .data h2 {
+      font-size: 33px;
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 18px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .row .info {
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .buttons .btn {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      padding: 8px 25px;
+      border-radius: 25px;
+      font-size: 18px;
+      white-space: nowrap;
+      background: linear-gradient(to left, #33ccff 0%, #ff99cc 100%);
+    }
+
+    .buttons .btn:hover {
+      box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
   <title>Bootstrap Example</title>
   <meta charset="utf-8" />
@@ -78,6 +198,28 @@
       <br /><br />
     </form>
   </div>
+
+  <div>
+
+    <div class="profile-card-container" id="profile-card-container">
+      <div class="profile-card">
+        <span class="close-btn" id="close-profile-card">&times;</span>
+        <div class="data">
+          <h2>Distribute:</h2>
+        </div>
+        <div id="hi">
+        </div>
+      </div>
+      <div class="buttons">
+        <a href="#" class="btn">Message</a>
+        <a href="#" class="btn">Follow Me</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+
   <div id="f">
     <form id="delI">
       <div class="container">
@@ -145,8 +287,7 @@
   <div id="f">
     <form id="setEmp">
       <h2><b>Add Shop</b></h2>
-      <hr
-        style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+      <hr style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
 
       <div class="container">
 
@@ -161,7 +302,7 @@
         <label><b>Enter Mobile no. :</b></label>
         <input type="number" placeholder="Mobile no." name="mobile" required><br><br>
         <button type="submit" class="btn btn-primary">submit</button>
-      </div>  
+      </div>
     </form>
   </div>
 </body>
@@ -172,7 +313,7 @@
 
   setI.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
+
 
     // Your form submission code goes here
     // For example, you can get the form data like this:
@@ -183,18 +324,14 @@
     const p = formData.get("p");
     const o = formData.get("o");
 
-    console.log(r);
-    console.log(contract)
 
-    const result = await contract.setItems(r, w, s, p, o);
-
-    // Wait for the transaction to be mined
-    await result.wait();
-    if (result.hash) {
-      console.log("Transaction successful!");
-    } else {
-      console.log("Transaction failed!");
+    try {
+      await contract.setItems(r, w, s, p, o);
+      alert("Transaction successful!");
+    } catch (error) {
+      alert(error.data.message);
     }
+
   });
 
 
@@ -206,18 +343,14 @@
 
   delI.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
 
-
-    const result = await contract.deleteItems();
-
-    // Wait for the transaction to be mined
-    await result.wait();
-    if (result.hash) {
-      console.log("Transaction successful!");
-    } else {
-      console.log("Transaction failed!");
+    try {
+      await contract.deleteItems();
+      alert("Transaction successful!");
+    } catch (error) {
+      alert(error.data.message);
     }
+
   });
 
 
@@ -229,19 +362,45 @@
 
   showI.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-   
+
 
     const result = await contract.showitems();
     console.log(result)
-    
 
-    console.log(result.rice.toString()); // Convert the BigNumber to a string
-    console.log(result.wheat.toString());
-    console.log(result.sugar.toString());
-    console.log(result.palm_oil.toString());
-    console.log(result.other.toString());
+    const showProfileCardButton = document.getElementById('show-profile-card');
+    const closeProfileCardButton = document.getElementById('close-profile-card');
+    const profileCardContainer = document.getElementById('profile-card-container');
 
-    // Wait for the transaction to be mined
+
+    const newData = document.getElementById('hi');
+    newData.innerHTML = `
+        <div class="info">
+          <h3>Rice</h3>
+          <span>${result.rice.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Wheat</h3>
+          <span>${result.wheat.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Sugar</h3>
+          <span>${result.sugar.toString()}</span>
+        </div>
+        <br>
+        <div class="info">
+          <h3>Palm Oil</h3>
+          <span>${result.palm_oil.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Other</h3>
+          <span>${result.other.toString()}</span>
+        </div>
+        `;
+
+    profileCardContainer.style.display = 'block';
+    closeProfileCardButton.addEventListener('click', function () {
+      profileCardContainer.style.display = 'none';
+    });
   });
 
 
@@ -253,7 +412,7 @@
 
   nextShop.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
+
 
 
     const result = await contract.next();
@@ -270,7 +429,7 @@
 
   verifyShop.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
+
 
     const formData = new FormData(verifyShop);
     const id = formData.get("id");
@@ -293,7 +452,7 @@
 
   delShop.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
+
 
     const formData = new FormData(delShop);
     const id = formData.get("id");
@@ -316,7 +475,7 @@
 
   setEmp.addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form from submitting
-    
+
 
     // Your form submission code goes here
     // For example, you can get the form data like this:
@@ -334,7 +493,7 @@
     console.log(sname);
 
 
-    const result = await contract.setEmp(id, name,sname, mobile, adhar);
+    const result = await contract.setEmp(id, name, sname, mobile, adhar);
     await result.wait();
     if (result.hash) {
       console.log("Transaction successful!");
@@ -346,4 +505,14 @@
 
 
 </script>
+
+
+
+
+
+
+<script>
+
+</script>
+
 </html>

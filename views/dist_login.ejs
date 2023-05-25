@@ -13,16 +13,136 @@
   <script src="data.js"></script>
   <style>
     #f {
-
       padding: 10px;
       margin-top: 25px;
-      width: 30%;
+      width: 40%;
+      overflow: hidden;
       margin-left: 25px;
       float: left;
     }
 
     #f h2 {
       text-align: center;
+    }
+
+    .profile-card-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid #ffffff40;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+      background-color: #fff;
+      margin: auto;
+      margin-top: 50px;
+    }
+
+    .close-btn {
+      position: absolute;
+      margin-top: 50px;
+      top: 15px;
+      right: 800px;
+      font-size: 24px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .main {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url(https://tinypic.host/images/2023/03/20/Shapes-Abstraction-Background-2466799.jpg);
+      background-position: center;
+      background-size: cover;
+    }
+
+    .profile-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid #ffffff40;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .data h2 {
+      font-size: 33px;
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 18px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .row .info {
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .buttons .btn {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      padding: 8px 25px;
+      border-radius: 25px;
+      font-size: 18px;
+      white-space: nowrap;
+      background: linear-gradient(to left, #33ccff 0%, #ff99cc 100%);
+    }
+
+    .buttons .btn:hover {
+      box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -49,11 +169,31 @@
       <label><b>Card Number</b></label>
       <input type="text" placeholder="Enter Ration card number" name="id" id="id" required />
 
-      <button type="submit">Login</button>
+      <button type="submit">Send OTP</button>
       <div id="parent"></div>
     </div>
   </form>
 
+
+  <div>
+
+    <div class="profile-card-container" id="profile-card-container">
+      <div class="profile-card">
+        <span class="close-btn" id="close-profile-card">&times;</span>
+        <div class="data">
+          <h2>Distribute:</h2>
+        </div>
+        <div id="hi">
+        </div>
+
+
+      </div>
+      <div class="buttons">
+
+        <button id="bot" class="btn">Continue</button>
+      </div>
+    </div>
+  </div>
   <div id="f">
     <form id="verifyCust">
       <h2>Verify Customer details</h2>
@@ -100,6 +240,7 @@
     </form>
   </div>
 
+
   <!-- Distribution -->
   <script>
 
@@ -138,33 +279,76 @@
       x = id
 
       const result = await contract.cal(id);
-      alert("give\n" + "Rice:" + result.rice.toString() + "\nWheat:" + result.wheat.toString() + "\nSugar:" + result.sugar.toString() + "\nPalm_oil:" + result.palm_oil.toString() + "\nOther:" + result.other.toString())
+
+      const showProfileCardButton = document.getElementById('show-profile-card');
+      const closeProfileCardButton = document.getElementById('close-profile-card');
+      const profileCardContainer = document.getElementById('profile-card-container');
+
+
+      const newData = document.getElementById('hi');
+      newData.innerHTML = `
+        <div class="info">
+          <h3>Rice</h3>
+          <span>${result.rice.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Wheat</h3>
+          <span>${result.wheat.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Sugar</h3>
+          <span>${result.sugar.toString()}</span>
+        </div>
+        <br>
+        <div class="info">
+          <h3>Palm Oil</h3>
+          <span>${result.palm_oil.toString()}</span>
+        </div>
+        <div class="info">
+          <h3>Other</h3>
+          <span>${result.other.toString()}</span>
+        </div>
+        `;
+
+      profileCardContainer.style.display = 'block';
+
+
+      closeProfileCardButton.addEventListener('click', function () {
+        profileCardContainer.style.display = 'none';
+      });
 
 
       parentElement.appendChild(formElement);
-
       const verify = document.getElementById("verifyOtp");
       verify.addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(verify);
         const otp = formData.get("otp");
+        console.log(otp)
+        alert(OTP)
 
         if (OTP == otp) {
-
+          console.log(otp)
+          alert(OTP)
           contract.distribute(x).then(function (result) {
             console.log(result);
+            console.log(result.data);
             alert("Transaction successful!");
+            window.location.href = "/distribute";
           }).catch(function (error) {
             console.log(error);
+            alert(error)
+            window.location.href = "/distribute";
           });
-
-
-          window.location.href = "/distribute";
         }
         else {
           alert("Wrong otp");
         }
-      })
+
+      });
+
+
+
 
     });
 

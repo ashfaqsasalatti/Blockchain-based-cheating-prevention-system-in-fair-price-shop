@@ -1132,7 +1132,7 @@ async function getAccountBalance() {
   console.log("User address is  :  " + address);
 
   contract = new ethers.Contract(
-    "0x846884A665D5aDf3DF9ECa932a3aD175Ed99Fc88",
+    "0x3160F0Ff0816AC6C485f00992de280FDC7C04344",
     abi,
     signer
   );

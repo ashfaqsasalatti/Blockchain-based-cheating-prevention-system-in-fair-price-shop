@@ -9,34 +9,140 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<link
-    rel="stylesheet"
-    href="css.css"
-  />
-  </head>
-  <body>
-  
-  <nav class="navbar navbar-default">
-	<div class="container-fluid">
-	  <div class="navbar-header">
-		<img class="navbar-brand" src="logo.jpg"/>
-	  </div>
-	  <ul class="nav navbar-nav">
-		<li><a href="/">Home</a></li>
-		<li><a href="/distribute">Issue good</a></li>
-		<li><a href="/add">Register</a></li>
-		<li><a href="/repo">Reports</a></li>
-  
-	  </ul>
+	<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+	<script src="data.js"></script>
+	<link rel="stylesheet" href="css.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<img class="navbar-brand" src="logo.jpg" />
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/">Home</a></li>
+				<li><a href="/distribute">Issue good</a></li>
+				<li><a href="/add">Register</a></li>
+				<li><a href="/repo">Reports</a></li>
+
+			</ul>
+		</div>
+	</nav>
+
+
+
+
+	<div id="f">
+		<form id="repo">
+			<h2><b>Get Family Details</b></h2>
+			<hr style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+			<div class="form-group">
+				<label>Ration Card Number</label>
+				<input type="text" class="form-control" name="id" id="id" placeholder="Enter ID">
+			</div>
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
 	</div>
-  </nav>
-  
 
 
+	<div id="f">
+		<form id="sell">
+			<h2><b>Get seller logs</b></h2>
+			<hr style="width:90%;height:2px;border-width:0;color:rgb(14, 101, 29);background-color:rgb(12, 100, 31)">
+			<div class="form-group">
+				<label>Seller ID</label>
+				<input type="text" class="form-control" name="id" id="id" placeholder="Enter ID">
+			</div>
+			<div class="form-group">
+				<label>Year</label>
+				<input type="number" class="form-control" name="y" id="y" placeholder="Member Name to Add">
+			</div>
+			<div class="form-group">
+				<label>month</label>
+				<input type="number" class="form-control" name="m" id="m" placeholder="Member Name to Add">
+			</div>
 
-  <button><a href="/transac">Continue</a></button>
-
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
 
 </body>
+
+<script>
+	const addMem = document.getElementById("repo");
+
+	repo.addEventListener("submit", async function (event) {
+		event.preventDefault(); // prevent form from submitting
+
+
+		// Your form submission code goes here
+		// For example, you can get the form data like this:
+		const formData = new FormData(repo);
+		const id = formData.get("id");
+
+
+		console.log(name);
+		console.log("ID: " + id);
+
+		const result = await contract.getFam(id);
+		console.log(result[0].toString())
+		console.log(result[0][1].toString())
+		console.log(result[1].toString())
+		alert(result.toString())
+		var docDefinition = {
+			content: [
+				{
+					text: 'Card Number is: ',
+					bold: true
+				},
+				{
+					text: result[0][5].toString()
+				},
+				'Detailes are: ', result[0].toString()
+			]
+		};
+
+		// Generate the PDF
+		var pdfDocGenerator = pdfMake.createPdf(docDefinition);
+
+		// Display or download the PDF
+		pdfDocGenerator.open();
+
+
+	});
+</script>
+
+
+<script>
+	const log = document.getElementById("sell");
+
+	sell.addEventListener("submit", async function (event) {
+		event.preventDefault(); // prevent form from submitting
+
+
+		// Your form submission code goes here
+		// For example, you can get the form data like this:
+		const formData = new FormData(sell);
+		const id = formData.get("id");
+		const y = formData.get("y");
+		const m = formData.get("m");
+
+
+		console.log(name);
+		console.log("ID: " + id);
+
+		const res = await contract.getLogs(id, y, m);
+		//console.log(result.toString())
+		console.log(res[0].toString())
+		console.log(res[0][1].toString())
+		alert(res.toString())
+
+	});
+</script>
 
 </html>
